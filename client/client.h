@@ -47,10 +47,10 @@ public:
     int start_conn(const char *ip, const char *port_);
 
     //将消息写入socket
-    int write_nbytes(int sockfd, const char *buffer, int len);
+    int write_nbytes(int sockfd, const char *buffer, int len ,const char *cacheport);
 
     //从socket中读入消息
-    int read_once(int sockfd, char *buffer, int len);
+    int read_once(int sockfd, char *buffer, int len ,const char *cacheport);
 
 private:
     unordered_map<string, string> k_v_map;
@@ -149,35 +149,35 @@ int client::start_conn(const char *ip, const char *port_) {
     return sockfd;
 }
 
-int client::read_once(int sockfd, char *buffer, int len) {
+int client::read_once(int sockfd, char *buffer, int len ,const char *cacheport) {
     int bytes_read = 0;
     memset(buffer, '\0', len);
-
+    int cache_num = getCache(cacheport);
     bytes_read = recv(sockfd, buffer, len, 0);
     if (bytes_read == -1) {
         //ALERT("[客户端]", 读取来自socket % d的消息失败-- -- -- -- -- -- -, sockfd);
         return -1;
     } else if (bytes_read == 0) {
-        ALERT("[客户端]", 读取来自socket%d的消息失败, sockfd);
+        ALERT("[客户端]", 读取来自cache%d的消息失败, cache_num);
         return 0;
     }else{
-        SUCCESS("[客户端]", 读取%d bytes来自socket%d的消息%s内容是:%s, bytes_read, sockfd, ",", buffer);
+        SUCCESS("[客户端]", 读取%d bytes来自cache%d的消息%s内容是:%s, bytes_read, cache_num, ",", buffer);
         return 1;
     }
 }
 
-int client::write_nbytes(int sockfd, const char *buffer, int len) {
+int client::write_nbytes(int sockfd, const char *buffer, int len ,const char *cacheport) {
     int bytes_write = 0;
-
+    int cache_num = getCache(cacheport);
     bytes_write = send(sockfd, buffer, len, 0);
     if (bytes_write < 0) {
-        ALERT("[客户端]", 写入socket%d的消息失败, sockfd);
+        ALERT("[客户端]", 写入cache%d的消息失败, cache_num);
         return -1;
     } else if (bytes_write == 0) {
-        ALERT("[客户端]", 写入socket%d的消息失败, sockfd);
+        ALERT("[客户端]", 写入cache%d的消息失败, cache_num);
         return -1;
     }else{
-        INFO("[客户端]", 写入%d bytes消息到socket%d中%c内容是%s, len, sockfd,',',buffer);
+        INFO("[客户端]", 写入%d bytes消息到cache%d中%c内容是%s, len, cache_num,',',buffer);
         return 1;
     }
 }

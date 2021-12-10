@@ -10,6 +10,7 @@
 #include <mutex>
 #include <algorithm>
 #include <string>
+#include "../log/colorlog.h"
 #include "../config.h"
 #include "../mysql/connectionRAII.h"
 
@@ -37,6 +38,7 @@ public:
         auto value_it = key_finder.find(key);
         if (value_it == key_finder.end()) {
             if (lru_queue.size() + 1 > max_cache_size) {
+                WARNING("此cache的lru队列状态",已满);
                 Erase();
             }
             Insert(key, value);

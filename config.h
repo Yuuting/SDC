@@ -11,15 +11,19 @@
 #define cache2_port "7878"
 #define cache3_ip "127.0.0.1"
 #define cache3_port "8989"
+#define master_ip "127.0.0.1"
+#define master_port "4545"
 #define backlog 1024
 
-#define LRUcacheMaxsize 5
+#define LRUcacheMaxsize 20
 #define keylen 6
 #define valuelen 11
 
 #define keepalive 60//单位：s
 #define interval_data 300//单位：ms
 #define maxSize 4096//epoll并发客户端数
+
+#define heartbeat 5
 
 #define pressure 20
 

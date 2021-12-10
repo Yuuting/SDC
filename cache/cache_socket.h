@@ -38,7 +38,47 @@ public:
 
     //处理服务端发送过来的消息
     string response(string recvmsg, LRUCache<string, string> &cache,const char *cacheport);
+
+    //给master发送心跳包
+    void sendHeartBeat(const char *ip, const char *port_);
 };
+
+void cache_socket::sendHeartBeat(const char *ip, const char *port_) {
+    int port = atoi(port_);
+    int cache_num = getCache(port_);
+    string tempS="[cache"+ to_string(cache_num)+"]";
+    struct sockaddr_in address;
+    bzero(&address, sizeof(address));
+    address.sin_family = AF_INET;
+    inet_pton(AF_INET, ip, &address.sin_addr);
+    address.sin_port = htons(port);
+
+    int sockfd = socket(PF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) {
+        throw std::range_error("socket was not created successfully");
+    }
+
+    if (connect(sockfd, (struct sockaddr *) &address, sizeof(address))<0) {
+        ALERT(tempS.c_str(),Error: connect);
+    }
+
+    setnonblocking(sockfd);
+    VERBOSE(tempS.c_str(),已连接master);
+    while(1){
+        sleep(heartbeat);
+        char buffer[255];
+
+        auto bytes_write = send(sockfd, buffer, strlen(buffer), 0);
+        if (bytes_write < 0) {
+            ALERT(tempS.c_str(), 写入socket%d的消息失败, sockfd);
+        } else if (bytes_write == 0) {
+            ALERT(tempS.c_str(), 写入socket%d的消息失败, sockfd);
+        }else{
+            INFO(tempS.c_str(), 写入%d bytes消息到socket%d中%c内容是%s, strlen(buffer), sockfd,',',buffer);
+        }
+    }
+
+}
 
 int cache_socket::getCache(const char *cacheport) {
     if (cacheport == cache1_port) {
