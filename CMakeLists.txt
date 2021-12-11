@@ -8,6 +8,7 @@ add_compile_options(-D_LOG_ALL)
 
 add_executable(cache log/colorlog.h common/utils.h config.h cache/lru_cache.h cache/cache_socket.h cache/cache.cpp mysql/locker.h mysql/sqlconn.h mysql/connectionRAII.h)
 add_executable(client log/colorlog.h common/utils.h config.h client/client.h client/client.cpp)
+add_executable(master master/master.h master/master.cpp)
 add_executable(partLog partLog.cpp)
 add_executable(mainLog mainLog.cpp)
 add_executable(testpressure bench/testpressure.cpp)

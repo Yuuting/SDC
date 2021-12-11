@@ -39,18 +39,18 @@ public:
     //处理服务端发送过来的消息
     string response(string recvmsg, LRUCache<string, string> &cache,const char *cacheport);
 
-    //给master发送心跳包
-    void sendHeartBeat(const char *ip, const char *port_);
+    //给master发送心跳包,此端口是master端口
+    void sendHeartBeat(const char *masterip, const char *masterport_,const char *cacheport);
 };
 
-void cache_socket::sendHeartBeat(const char *ip, const char *port_) {
-    int port = atoi(port_);
-    int cache_num = getCache(port_);
-    string tempS="[cache"+ to_string(cache_num)+"]";
+void cache_socket::sendHeartBeat(const char *masterip, const char *masterport_,const char *cacheport) {
+    int port = atoi(masterport_);
+    int cache_num = getCache(cacheport);
+    string tempS="[cache"+ to_string(cache_num)+"]->[master]";
     struct sockaddr_in address;
     bzero(&address, sizeof(address));
     address.sin_family = AF_INET;
-    inet_pton(AF_INET, ip, &address.sin_addr);
+    inet_pton(AF_INET, masterip, &address.sin_addr);
     address.sin_port = htons(port);
 
     int sockfd = socket(PF_INET, SOCK_STREAM, 0);
@@ -60,6 +60,7 @@ void cache_socket::sendHeartBeat(const char *ip, const char *port_) {
 
     if (connect(sockfd, (struct sockaddr *) &address, sizeof(address))<0) {
         ALERT(tempS.c_str(),Error: connect);
+        return;
     }
 
     setnonblocking(sockfd);
@@ -67,6 +68,9 @@ void cache_socket::sendHeartBeat(const char *ip, const char *port_) {
     while(1){
         sleep(heartbeat);
         char buffer[255];
+        memset(buffer, '\0', sizeof(buffer));
+        string heartBeat="[cache"+ to_string(cache_num)+"]存活";
+        strcpy(buffer,heartBeat.c_str());
 
         auto bytes_write = send(sockfd, buffer, strlen(buffer), 0);
         if (bytes_write < 0) {

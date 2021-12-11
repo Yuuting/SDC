@@ -4,31 +4,43 @@
 #include "../config.h"
 #include <thread>
 
-void Thread_cache1(){
-    LRUCache<string,string> lruCache1(LRUcacheMaxsize);
-    cache_socket c1;
-    c1.work(cache1_port,backlog,lruCache1);
+void Thread1(LRUCache<string,string> &lruCache,cache_socket &c,const char* &cachePort){
+
+    pid_t status;
+    status= fork();
+    if(status == -1)
+    {
+        printf("Create ChildProcess Errror!\n");
+        exit(1);
+    }
+    else if(status == 0)
+    {
+        c.sendHeartBeat(master_ip,master_port,cachePort);
+    }
+    else
+    {
+        c.work(cachePort,backlog,lruCache);
+    }
 }
 
-void Thread_cache2(){
-    sleep(1);
-    LRUCache<string,string> lruCache2(LRUcacheMaxsize);
-    cache_socket c2;
-    c2.work(cache2_port,backlog,lruCache2);
+void Thread2(LRUCache<string,string> &lruCache,int cache){
+    while(1){
+        lruCache.writeToMysql(cache);
+        string prefix="[cache"+ to_string(cache)+"]";
+        VERBOSE(prefix.c_str(), %s, "将cache中的数据写入mysql数据库中");
+        sleep(dbtime);
+    }
+
 }
 
-void Thread_cache3(){
-    sleep(2);
-    LRUCache<string,string> lruCache3(LRUcacheMaxsize);
-    cache_socket c3;
-    c3.work(cache3_port,backlog,lruCache3);
-}
-
-int main() {
-    thread t1(Thread_cache1);
-    thread t2(Thread_cache2);
-    thread t3(Thread_cache3);
+int main(int argc,char* argv[]) {
+    assert(argc==2);
+    int cache=atoi(argv[1]);
+    const char* cachePort=cache_port[cache];
+    LRUCache<string,string> lruCache(LRUcacheMaxsize);
+    cache_socket c;
+    thread t1(Thread1,ref(lruCache),ref(c),ref(cachePort));
+    thread t2(Thread2, ref(lruCache), ref(cache));
     t1.join();
     t2.join();
-    t3.join();
 }

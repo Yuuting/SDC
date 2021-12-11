@@ -15,6 +15,12 @@
 #define master_port "4545"
 #define backlog 1024
 
+std::unordered_map<int,const char *> cache_port={
+        {1,cache1_port},
+        {2,cache2_port},
+        {3,cache3_port}
+};
+
 #define LRUcacheMaxsize 20
 #define keylen 6
 #define valuelen 11
@@ -25,6 +31,7 @@
 
 #define heartbeat 5
 
+#define dbtime 5
 #define pressure 20
 
 #define mysqlurl "localhost"
