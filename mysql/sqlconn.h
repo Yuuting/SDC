@@ -83,7 +83,7 @@ void connection_pool::init(string url, string User, string PassWord, string DBNa
 
         if (con == NULL)
         {
-            ALERT("[MySQL]",%s,"Error");
+            ALERT("[MySQL]",%s,"连接失败");
             exit(1);
         }
         connList.push_back(con);

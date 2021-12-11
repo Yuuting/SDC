@@ -39,7 +39,7 @@ std::unordered_map<int,const char *> cache_port={
 #define mysqlPassWord "Fe747698!"
 #define dbName "cache"
 #define mysqlPort 3306
-#define mysqlMaxConn 50
+#define mysqlMaxConn 10
 
 
 #endif //DISTRIBUTED_CACHE_CONFIG_H
