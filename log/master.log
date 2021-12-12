@@ -1,0 +1,11 @@
+[master] : 启动 
+[master] : listening... 
+[master] : connect 127.0.0.1:34556 
+[master] : connect 127.0.0.1:34558 
+[master] : connect 127.0.0.1:34560 
+[master]收到消息 : [cache1]存活 
+[master]收到消息 : [cache2]存活 
+[master]收到消息 : [cache3]存活 
+[master]收到消息 : [cache1]存活 
+[master]收到消息 : [cache2]存活 
+[master]收到消息 : [cache3]存活 
