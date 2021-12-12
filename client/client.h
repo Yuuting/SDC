@@ -21,7 +21,8 @@
 #include <unordered_map>
 #include <functional>
 #include <chrono>
-
+#include <fstream>
+#include <iomanip>
 #include "../common/utils.h"
 #include "../log/colorlog.h"
 #include "../config.h"
@@ -53,13 +54,14 @@ public:
     //从socket中读入消息
     int read_once(int sockfd, char *buffer, int len ,string cacheport);
 
-    //本地数据分布缓存设置
-    json client_db(int time_pull,int master_sock,unordered_map<int,const char*>& port_socket);
+    //拉取master数据分布缓存
+    json pull_db();
 
+    //本地数据分布缓存
+    json dbClient;
 
 private:
     unordered_map<string, string> k_v_map;
-
 };
 
 int client::choose(int socket1,int socket2,int socket3){
@@ -202,20 +204,15 @@ int client::write_nbytes(int sockfd, const char *buffer, int len ,string cachepo
     }
 }
 
-json client::client_db(int time_pull,int master_sock,unordered_map<int,const char*>& port_socket) {
-    char data[8192] = "获取master数据分布";
-    char buf[8192];
-    while (1) {
-        sleep(time_pull);
-        this->write_nbytes(master_sock, data, strlen(data), port_socket[master_sock]);
-        while (1) {
-            int ret = this->read_once(master_sock, buf, sizeof(buf), port_socket[master_sock]);
-            if (ret > 0) {
-                break;
-            } else if (ret == 0) {
-                break;
-            }
-        }
-    }
+json client::pull_db() {
+    ifstream i(dbMaster_add);
+    json j;
+    i >> j;
+    dbClient=j;
+    ofstream o(dbClient_add);
+    o << std::setw( 4 )<<dbClient << std::endl;
+    return j;
 }
+
+
 #endif //DISTRIBUTED_CACHE_CLIENT_H

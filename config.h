@@ -42,6 +42,6 @@ std::unordered_map<int,const char *> cache_port={
 #define mysqlMaxConn 10
 
 #define dbMaster_add "../master/dbMaster.json"
-
+#define dbClient_add "../client/dbClient.json"
 
 #endif //DISTRIBUTED_CACHE_CONFIG_H
