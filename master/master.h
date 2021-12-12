@@ -25,14 +25,30 @@
 #include "../common/utils.h"
 #include "../log/colorlog.h"
 #include "../config.h"
+#include "ConsistentHash.h"
+#include "../common/utils.h"
+#include "../common/json.hpp"
 
 using namespace std;
 using namespace chrono;
+using namespace nlohmann;
 
 class master{
 public:
+    //构造函数，开启一致性哈希功能
+    explicit master(): hash(10){
+        hash.addNode(cache1_port);
+        hash.addNode(cache2_port);
+        hash.addNode(cache3_port);
+    }
     //master服务开启于本机，输入cache端口号和最大连接数
     void recvHeartBeat(const char *masterPort, int backLog);
+
+    //一致性哈希处理客户端发来的消息
+    string cache_com(string recvmsg);
+private:
+    ConsistentHash hash;
+    json dbMaster;
 };
 void master::recvHeartBeat(const char *masterPort, int backLog) {
     int port = atoi(masterPort);
@@ -166,14 +182,29 @@ void master::recvHeartBeat(const char *masterPort, int backLog) {
                             }
                         }else if(len==0){
                             //cache坏的时候会发个空包
-                            ALERT("[master]发现",cache%i故障%s,socket_cache[sockfd],",开始重新划分数据分布");
+                            if(socket_cache[sockfd]==0){
+                                WARNING("[master]发现",client退出);
+                            }else{
+                                ALERT("[master]发现",cache%i故障%s,socket_cache[sockfd],",开始重新划分数据分布");
+                            }
                             removefd(epollfd, sockfd);
                             break;
                         }
                         buf[len] = '\0';
-                        INFO("[master]收到消息",%s,buf);
+                        INFO("[master]",收到消息%s%s,",",buf);
 
-                        socket_cache.insert(make_pair(sockfd,buf[6]-'0'));
+                        string message=buf;
+                        if(starts_with(message,"Put")|| starts_with(message,"Get")){
+                            socket_cache.insert(make_pair(sockfd,0));
+                            string sendMsg = cache_com(message);
+                            memset(buf, '\0', sizeof(buf));
+                            strcpy(buf, sendMsg.c_str());
+                            write(sockfd, buf, sizeof(buf));
+                            memset(buf, '\0', len);
+                        }else{
+                            socket_cache.insert(make_pair(sockfd,buf[6]-'0'));
+                        }
+
                         memset(buf, '\0', len);
                     }
                 }
@@ -181,5 +212,44 @@ void master::recvHeartBeat(const char *masterPort, int backLog) {
         }
     }
     close(listenfd);
+}
+
+string master::cache_com(string recvmsg){
+    string sendmsg;
+    string value;
+    try{
+        string pre=split(recvmsg, ":")[0];
+        if (pre == "Get") {
+            string key = split(recvmsg, ":")[1];
+
+            try{
+                value=dbMaster[key];
+                int cache;
+                for (auto it = cache_port.begin(); it != cache_port.end(); ++it) {
+                    if (it->second == value) { cache = it->first; }
+                }
+                WARNING("[master]",发现key在cache%d中,cache);
+            }catch (exception &e){
+                value="";
+                WARNING("[master]",未发现此key);
+            }
+            sendmsg = value;
+        } else if (pre == "Put") {
+            string key=split(split(recvmsg, ":")[1], ",")[0];
+            string port=hash.virtualInsert(key);
+            sendmsg=port;
+            dbMaster[key]=port;
+            ofstream o(dbMaster_add);
+            o << std::setw( 4 )<<dbMaster << std::endl;
+            int cache;
+            for (auto it = cache_port.begin(); it != cache_port.end(); ++it) {
+                if (it->second == port) { cache = it->first; }
+            }
+            SUCCESS("[master]", 决定将此key放入cache%d中, cache);
+        }
+    }catch (exception &e){
+        sendmsg="接收到客户端的异常信息，准备断开连接......";
+    }
+    return sendmsg;
 }
 #endif //DISTRIBUTED_CACHE_MASTER_H

@@ -29,9 +29,9 @@ std::unordered_map<int,const char *> cache_port={
 #define interval_data 300//单位：ms
 #define maxSize 4096//epoll并发客户端数
 
-#define heartbeat 5
+#define heartbeat 60
 
-#define dbtime 5
+#define dbtime 60
 #define pressure 20
 
 #define mysqlurl "localhost"
@@ -40,6 +40,8 @@ std::unordered_map<int,const char *> cache_port={
 #define dbName "cache"
 #define mysqlPort 3306
 #define mysqlMaxConn 10
+
+#define dbMaster_add "../master/dbMaster.json"
 
 
 #endif //DISTRIBUTED_CACHE_CONFIG_H

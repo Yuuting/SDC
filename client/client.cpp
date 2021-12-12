@@ -21,11 +21,21 @@ int main(int argc,char *argv[]) {
         assert(c_socket2>0);
         int c_socket3 = c.start_conn(cache3_ip, cache3_port);
         assert(c_socket3>0);
+        int master_sock=c.start_conn(master_ip,master_port);
+        assert(master_sock>0);
 
-        unordered_map<int,const char*> port_socket={
+        unordered_map<int,const char*> socket_port={
                 {c_socket1,cache1_port},
                 {c_socket2,cache2_port},
-                {c_socket3,cache3_port}
+                {c_socket3,cache3_port},
+                {master_sock,master_port}
+        };
+
+        unordered_map<string,int> port_socket={
+                {cache1_port,c_socket1},
+                {cache2_port,c_socket2},
+                {cache3_port,c_socket3},
+                {master_port,master_sock}
         };
 
         while (true) {
@@ -34,11 +44,21 @@ int main(int argc,char *argv[]) {
             string mess = c.message(k_v);
             memset(data, '\0', sizeof(data));
             strcpy(data, mess.c_str());
-            int socket = c.choose(c_socket1, c_socket2, c_socket3);
-            c.write_nbytes(socket, data, strlen(data),port_socket[socket]);
+            c.write_nbytes(master_sock, data, strlen(data),socket_port[master_sock]);
             while(1){
-                int ret=c.read_once(socket, buf, sizeof(buf),port_socket[socket]);
+                int ret=c.read_once(master_sock, buf, sizeof(buf),socket_port[master_sock]);
                 if(ret>0){
+                    buf[ret]='\0';
+                    string port=buf;
+                    c.write_nbytes(port_socket[port],data,strlen(data),port);
+                    while(1){
+                        int ret=c.read_once(port_socket[port], buf, sizeof(buf),port);
+                        if(ret>0){
+                            break;
+                        }else if(ret==0){
+                            break;
+                        }
+                    }
                     break;
                 }else if(ret==0){
                     break;

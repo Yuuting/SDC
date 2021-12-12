@@ -25,14 +25,15 @@
 #include "../common/utils.h"
 #include "../log/colorlog.h"
 #include "../config.h"
-
+#include "../common/json.hpp"
 using namespace std;
+using namespace nlohmann;
 
 
 class client {
 public:
     //判断要连接的是哪个cache
-    int getCache(const char *cacheport);
+    int getCache(string cacheport);
 
     //决定使用哪个socket通信，后期根据本地缓存进行决定
     int choose(int socket1,int socket2,int socket3);
@@ -47,10 +48,14 @@ public:
     int start_conn(const char *ip, const char *port_);
 
     //将消息写入socket
-    int write_nbytes(int sockfd, const char *buffer, int len ,const char *cacheport);
+    int write_nbytes(int sockfd, const char *buffer, int len ,string cacheport);
 
     //从socket中读入消息
-    int read_once(int sockfd, char *buffer, int len ,const char *cacheport);
+    int read_once(int sockfd, char *buffer, int len ,string cacheport);
+
+    //本地数据分布缓存设置
+    json client_db(int time_pull,int master_sock,unordered_map<int,const char*>& port_socket);
+
 
 private:
     unordered_map<string, string> k_v_map;
@@ -68,13 +73,15 @@ int client::choose(int socket1,int socket2,int socket3){
     }
 }
 
-int client::getCache(const char *cacheport){
-    if (cacheport == cache1_port) {
+int client::getCache(string port) {
+    if (port == cache1_port) {
         return 1;
-    } else if (cacheport == cache2_port) {
+    } else if (port == cache2_port) {
         return 2;
-    } else if (cacheport == cache3_port) {
+    } else if (port == cache3_port) {
         return 3;
+    } else if (port == master_port) {
+        return 0;
     }
 }
 
@@ -145,11 +152,16 @@ int client::start_conn(const char *ip, const char *port_) {
     }
 
     setnonblocking(sockfd);
-    VERBOSE("[客户端]",已连接cache%i,cache_num);
+    if (cache_num == 0) {
+        VERBOSE("[客户端]", 已连接master);
+    } else {
+        VERBOSE("[客户端]", 已连接cache%i, cache_num);
+    }
+
     return sockfd;
 }
 
-int client::read_once(int sockfd, char *buffer, int len ,const char *cacheport) {
+int client::read_once(int sockfd, char *buffer, int len ,string cacheport) {
     int bytes_read = 0;
     memset(buffer, '\0', len);
     int cache_num = getCache(cacheport);
@@ -158,28 +170,52 @@ int client::read_once(int sockfd, char *buffer, int len ,const char *cacheport) 
         //ALERT("[客户端]", 读取来自socket % d的消息失败-- -- -- -- -- -- -, sockfd);
         return -1;
     } else if (bytes_read == 0) {
-        ALERT("[客户端]", 读取来自cache%d的消息失败, cache_num);
+        ALERT("[客户端]", 读取来自socket%d的消息失败, sockfd);
         return 0;
     }else{
-        SUCCESS("[客户端]", 读取%d bytes来自cache%d的消息%s内容是:%s, bytes_read, cache_num, ",", buffer);
-        return 1;
+        if(cache_num==0){
+            SUCCESS("[客户端]", 读取%d bytes来自master的消息%s内容是:%s, bytes_read, ",", buffer);
+        }else{
+            SUCCESS("[客户端]", 读取%d bytes来自cache%d的消息%s内容是:%s, bytes_read, cache_num, ",", buffer);
+        }
+        return bytes_read;
     }
 }
 
-int client::write_nbytes(int sockfd, const char *buffer, int len ,const char *cacheport) {
+int client::write_nbytes(int sockfd, const char *buffer, int len ,string cacheport) {
     int bytes_write = 0;
     int cache_num = getCache(cacheport);
     bytes_write = send(sockfd, buffer, len, 0);
     if (bytes_write < 0) {
-        ALERT("[客户端]", 写入cache%d的消息失败, cache_num);
+        ALERT("[客户端]", 写入socket%d的消息失败, sockfd);
         return -1;
     } else if (bytes_write == 0) {
-        ALERT("[客户端]", 写入cache%d的消息失败, cache_num);
+        ALERT("[客户端]", 写入socket%d的消息失败, sockfd);
         return -1;
     }else{
-        INFO("[客户端]", 写入%d bytes消息到cache%d中%c内容是%s, len, cache_num,',',buffer);
+        if(cache_num==0){
+            INFO("[客户端]", 写入%d bytes消息到master中%c内容是%s, len,',',buffer);
+        }else{
+            INFO("[客户端]", 写入%d bytes消息到cache%d中%c内容是%s, len, cache_num,',',buffer);
+        }
         return 1;
     }
 }
 
+json client::client_db(int time_pull,int master_sock,unordered_map<int,const char*>& port_socket) {
+    char data[8192] = "获取master数据分布";
+    char buf[8192];
+    while (1) {
+        sleep(time_pull);
+        this->write_nbytes(master_sock, data, strlen(data), port_socket[master_sock]);
+        while (1) {
+            int ret = this->read_once(master_sock, buf, sizeof(buf), port_socket[master_sock]);
+            if (ret > 0) {
+                break;
+            } else if (ret == 0) {
+                break;
+            }
+        }
+    }
+}
 #endif //DISTRIBUTED_CACHE_CLIENT_H
