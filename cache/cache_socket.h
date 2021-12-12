@@ -46,7 +46,7 @@ public:
 void cache_socket::sendHeartBeat(const char *masterip, const char *masterport_,const char *cacheport) {
     int port = atoi(masterport_);
     int cache_num = getCache(cacheport);
-    string tempS="[cache"+ to_string(cache_num)+"]->[master]";
+    string tempS="[cache"+ to_string(cache_num)+"] : ->[master]";
     struct sockaddr_in address;
     bzero(&address, sizeof(address));
     address.sin_family = AF_INET;
@@ -273,7 +273,7 @@ string cache_socket::response(string recvmsg, LRUCache<string, string> &cache,co
     prefix+="[cache";
     prefix+= to_string(cache_num);
     prefix+="]";
-    string success_prefix=prefix+string("接收到客户端消息");
+    string success_prefix=prefix+string(" : 接收到客户端消息");
     if(recvmsg==""){
         ALERT(success_prefix.c_str(),%s,"客户端断开连接");
         return "接收到客户端的异常信息，准备断开连接......";
@@ -287,17 +287,17 @@ string cache_socket::response(string recvmsg, LRUCache<string, string> &cache,co
             try {
                 string getElem = cache.Get(split(split(recvmsg, ":")[1], ",")[0]);
                 sendmsg = split(split(recvmsg, ":")[1], ",")[0] + "在LRU缓存队列中，值为" + getElem;
-                WARNING(prefix.append("有该(key，value)对，回复client端").c_str(),%s,sendmsg.c_str());
+                WARNING(prefix.append(" : 有该(key，value)对，回复client端").c_str(),%s,sendmsg.c_str());
             } catch (exception &e) {
                 sendmsg = e.what();
-                ALERT(prefix.append("无该(key，value)对，回复client端").c_str(),%s,sendmsg.c_str());
+                ALERT(prefix.append(" : 无该(key，value)对，回复client端").c_str(),%s,sendmsg.c_str());
             }
 
         } else if (pre == "Put") {
             cache.Put(split(split(recvmsg, ":")[1], ",")[0], split(split(recvmsg, ":")[1], ",")[1]);
             sendmsg += '(' + split(split(recvmsg, ":")[1], ",")[0] + "," + split(split(recvmsg, ":")[1], ",")[1];
             sendmsg.append(")被加入LRU缓存队列中");
-            INFO(prefix.append("将该(key，value)对放入缓存中，回复client端").c_str(),%s,sendmsg.c_str());
+            INFO(prefix.append(" : 将该(key，value)对放入缓存中，回复client端").c_str(),%s,sendmsg.c_str());
         }
     }catch (exception &e){
         sendmsg="接收到客户端的异常信息，准备断开连接......";

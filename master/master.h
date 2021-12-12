@@ -183,9 +183,9 @@ void master::recvHeartBeat(const char *masterPort, int backLog) {
                         }else if(len==0){
                             //cache坏的时候会发个空包
                             if(socket_cache[sockfd]==0){
-                                WARNING("[master]发现",client退出);
+                                WARNING("[master]",发现client退出);
                             }else{
-                                ALERT("[master]发现",cache%i故障%s,socket_cache[sockfd],",开始重新划分数据分布");
+                                ALERT("[master]",发现cache%i故障%s,socket_cache[sockfd],",开始重新划分数据分布");
                             }
                             removefd(epollfd, sockfd);
                             break;
