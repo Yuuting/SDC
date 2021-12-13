@@ -66,7 +66,6 @@ void cache_socket::sendHeartBeat(const char *masterip, const char *masterport_,c
     setnonblocking(sockfd);
     VERBOSE(tempS.c_str(),已连接master);
     while(1){
-        sleep(heartbeat);
         char buffer[255];
         memset(buffer, '\0', sizeof(buffer));
         string heartBeat="[cache"+ to_string(cache_num)+"]存活";
@@ -80,17 +79,14 @@ void cache_socket::sendHeartBeat(const char *masterip, const char *masterport_,c
         }else{
             INFO(tempS.c_str(), 写入%d bytes消息到socket%d中%c内容是%s, strlen(buffer), sockfd,',',buffer);
         }
+        sleep(heartbeat);
     }
 
 }
 
 int cache_socket::getCache(const char *cacheport) {
-    if (cacheport == cache1_port) {
-        return 1;
-    } else if (cacheport == cache2_port) {
-        return 2;
-    } else if (cacheport == cache3_port) {
-        return 3;
+    for (auto it = cache_port.begin(); it != cache_port.end(); ++it) {
+        if (it->second == cacheport) { return  it->first; }
     }
 }
 

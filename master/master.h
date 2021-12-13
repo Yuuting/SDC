@@ -36,11 +36,8 @@ using namespace nlohmann;
 class master{
 public:
     //构造函数，开启一致性哈希功能
-    explicit master(): hash(10){
-        hash.addNode(cache1_port);
-        hash.addNode(cache2_port);
-        hash.addNode(cache3_port);
-    }
+    explicit master() : hash(10) {}
+
     //master服务开启于本机，输入cache端口号和最大连接数
     void recvHeartBeat(const char *masterPort, int backLog);
 
@@ -185,6 +182,7 @@ void master::recvHeartBeat(const char *masterPort, int backLog) {
                             if(socket_cache[sockfd]==0){
                                 WARNING("[master]",发现client退出);
                             }else{
+                                hash.delNode(cache_port[socket_cache[sockfd]]);
                                 ALERT("[master]",发现cache%i故障%s,socket_cache[sockfd],",开始重新划分数据分布");
                             }
                             removefd(epollfd, sockfd);
@@ -202,7 +200,8 @@ void master::recvHeartBeat(const char *masterPort, int backLog) {
                             write(sockfd, buf, sizeof(buf));
                             memset(buf, '\0', len);
                         }else{
-                            socket_cache.insert(make_pair(sockfd,buf[6]-'0'));
+                            socket_cache[sockfd]=int(buf[6])-48;
+                            hash.addNode(cache_port[buf[6]-'0']);
                         }
 
                         memset(buf, '\0', len);

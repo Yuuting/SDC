@@ -36,7 +36,7 @@ public:
     //判断要连接的是哪个cache
     int getCache(string cacheport);
 
-    //决定使用哪个socket通信，后期根据本地缓存进行决定
+    //决定使用哪个socket通信，后期根据本地缓存进行决定,弃用
     int choose(int socket1,int socket2,int socket3);
 
     //随机生成等长的key和value
@@ -76,14 +76,8 @@ int client::choose(int socket1,int socket2,int socket3){
 }
 
 int client::getCache(string port) {
-    if (port == cache1_port) {
-        return 1;
-    } else if (port == cache2_port) {
-        return 2;
-    } else if (port == cache3_port) {
-        return 3;
-    } else if (port == master_port) {
-        return 0;
+    for (auto it = cache_port.begin(); it != cache_port.end(); ++it) {
+        if (it->second == port) { return  it->first; }
     }
 }
 
@@ -207,7 +201,11 @@ int client::write_nbytes(int sockfd, const char *buffer, int len ,string cachepo
 json client::pull_db() {
     ifstream i(dbMaster_add);
     json j;
-    i >> j;
+    try{
+        i >> j;
+    }catch(exception &e){
+        ;
+    }
     dbClient=j;
     ofstream o(dbClient_add);
     o << std::setw( 4 )<<dbClient << std::endl;
