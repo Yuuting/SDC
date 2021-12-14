@@ -17,5 +17,7 @@ add_executable(consistHash master/ConsistentHash.h master/ConsistentHash.cpp)
 
 target_link_libraries(cache  ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(cache mysqlclient)
+target_link_libraries(client  ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(client mysqlclient)
 target_link_libraries(testMYSQL  ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(testMYSQL mysqlclient)

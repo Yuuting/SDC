@@ -42,7 +42,7 @@ std::unordered_map<int,const char *> cache_ip={
 
 #define heartbeat 60
 
-#define dbtime 60
+#define dbtime 5
 #define pressure 20
 
 #define mysqlurl "localhost"
@@ -51,6 +51,7 @@ std::unordered_map<int,const char *> cache_ip={
 #define dbName "cache"
 #define mysqlPort 3306
 #define mysqlMaxConn 10
+#define mysqlMaxConn_client 100
 
 #define dbMaster_add "../master/dbMaster.json"
 #define dbClient_add "../client/dbClient.json"

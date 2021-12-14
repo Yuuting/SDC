@@ -184,6 +184,16 @@ void master::recvHeartBeat(const char *masterPort, int backLog) {
                             }else{
                                 hash.delNode(cache_port[socket_cache[sockfd]]);
                                 ALERT("[master]",发现cache%i故障%s,socket_cache[sockfd],",开始重新划分数据分布");
+                                /*
+                                for (json::iterator it = dbMaster.begin(); it != dbMaster.end(); ++it) {
+                                    if(it.value()==cache_port[socket_cache[sockfd]]){
+                                        dbMaster.erase(it);
+                                    }
+                                }
+                                ALERT("[master]",删除cache%i所有数据,socket_cache[sockfd]);
+                                ofstream o(dbMaster_add);
+                                o << std::setw( 4 )<<dbMaster << std::endl;
+                                */
                             }
                             removefd(epollfd, sockfd);
                             break;
@@ -247,7 +257,7 @@ string master::cache_com(string recvmsg){
             SUCCESS("[master]", 决定将此key放入cache%d中, cache);
         }
     }catch (exception &e){
-        sendmsg="接收到客户端的异常信息，准备断开连接......";
+        sendmsg="cache全部宕机，无法提供服务,请与我断开连接......";
     }
     return sendmsg;
 }

@@ -25,10 +25,10 @@ void Thread1(LRUCache<string,string> &lruCache,cache_socket &c,const char* &cach
 
 void Thread2(LRUCache<string,string> &lruCache,int cache){
     while(1){
-        sleep(dbtime);
         lruCache.writeToMysql(cache);
         string prefix="[cache"+ to_string(cache)+"]";
         VERBOSE(prefix.c_str(), %s, "将cache中的数据写入mysql数据库中");
+        sleep(dbtime);
     }
 
 }

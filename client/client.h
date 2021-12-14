@@ -27,12 +27,20 @@
 #include "../log/colorlog.h"
 #include "../config.h"
 #include "../common/json.hpp"
+#include "../mysql/connectionRAII.h"
 using namespace std;
 using namespace nlohmann;
 
 
 class client {
 public:
+    //初始化数据库连接池
+    explicit client(){
+        //连接池初始化
+        connPool = connection_pool::GetInstance();
+        connPool->init(mysqlurl, mysqlUser, mysqlPassWord, dbName,mysqlPort,mysqlMaxConn_client);
+    }
+
     //判断要连接的是哪个cache
     int getCache(string cacheport);
 
@@ -59,6 +67,9 @@ public:
 
     //本地数据分布缓存
     json dbClient;
+
+    //一个client拥有一个数据库连接池
+    connection_pool *connPool;
 
 private:
     unordered_map<string, string> k_v_map;
@@ -183,10 +194,10 @@ int client::write_nbytes(int sockfd, const char *buffer, int len ,string cachepo
     int cache_num = getCache(cacheport);
     bytes_write = send(sockfd, buffer, len, 0);
     if (bytes_write < 0) {
-        ALERT("[客户端]", 写入socket%d的消息失败, sockfd);
+        ALERT("[客户端]", 写入socket%d的消息失败%c判断是否有新连接到来, sockfd,',');
         return -1;
     } else if (bytes_write == 0) {
-        ALERT("[客户端]", 写入socket%d的消息失败, sockfd);
+        ALERT("[客户端]", 写入socket%d的消息失败%c判断是否有新连接到来, sockfd,',');
         return -1;
     }else{
         if(cache_num==0){
