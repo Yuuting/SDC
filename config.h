@@ -57,10 +57,16 @@ std::unordered_map<int,const char *> cache_ip={
 #define maxSize 4096
 
 //发送心跳时间间隔
-#define heartbeat 60
+#define heartbeat 5
 
 //写入数据库时间间隔
 #define dbtime 5
+
+//cache重连master的时间间隔
+#define cachemasterTime 10
+
+//client重连master的时间间隔
+#define clientmasterTime 30
 
 //压测client数量
 #define pressure 20

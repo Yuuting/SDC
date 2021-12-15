@@ -40,7 +40,11 @@
 - 手动查询k、v与大规模灌数据
 - 连接后端mysql数据库，缓存失效后端可以查看失效记录
 - 压力测试
+- master一致性哈希
 
 ## Expand and shrink (Cache)
 - 扩容：cache可以另开，通过配置文件修改client的连接数量和新cache的ip与端口。扩容后客户端自适应连接新cache。
 - 缩容：当有cache宕机后，master的一致性哈希会决策不再往宕机的chche写入。若访问宕机cache中存的元素，则会从后端mysql中寻找。
+
+## Expand and shrink (Master)
+在master出现故障后，cache和正在运行的chche会重连master。等待master抢救成功后，业务自动恢复。

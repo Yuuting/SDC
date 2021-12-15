@@ -44,6 +44,7 @@ public:
 };
 
 void cache_socket::sendHeartBeat(const char *masterip, const char *masterport_,const char *cacheport) {
+    int sockfd;
     int port = atoi(masterport_);
     int cache_num = getCache(cacheport);
     string tempS="[cache"+ to_string(cache_num)+"] : ->[master]";
@@ -53,7 +54,7 @@ void cache_socket::sendHeartBeat(const char *masterip, const char *masterport_,c
     inet_pton(AF_INET, masterip, &address.sin_addr);
     address.sin_port = htons(port);
 
-    int sockfd = socket(PF_INET, SOCK_STREAM, 0);
+    sockfd = socket(PF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
         throw std::range_error("socket was not created successfully");
     }
@@ -73,12 +74,33 @@ void cache_socket::sendHeartBeat(const char *masterip, const char *masterport_,c
 
         auto bytes_write = send(sockfd, buffer, strlen(buffer), 0);
         if (bytes_write < 0) {
-            ALERT(tempS.c_str(), 写入socket%d的消息失败, sockfd);
+            ALERT(tempS.c_str(), 写入socket%d的消息失败%c正在重连%s, sockfd,',',"......");
         } else if (bytes_write == 0) {
-            ALERT(tempS.c_str(), 写入socket%d的消息失败, sockfd);
+            ALERT(tempS.c_str(), 写入socket%d的消息失败%c正在重连%s, sockfd,',',"......");
         }else{
             INFO(tempS.c_str(), 写入%d bytes消息到socket%d中%c内容是%s, strlen(buffer), sockfd,',',buffer);
         }
+        if(bytes_write<=0){
+            while(1){
+                struct sockaddr_in address;
+                bzero(&address, sizeof(address));
+                address.sin_family = AF_INET;
+                inet_pton(AF_INET, masterip, &address.sin_addr);
+                address.sin_port = htons(port);
+
+                sockfd = socket(PF_INET, SOCK_STREAM, 0);
+                if (sockfd < 0) {
+                    throw std::range_error("socket was not created successfully");
+                }
+                if (connect(sockfd, (struct sockaddr *) &address, sizeof(address))<0){
+                    ALERT(tempS.c_str(),正在重连master%s,"......");
+                    sleep(cachemasterTime);
+                }else{
+                    break;
+                }
+            }
+        }
+
         sleep(heartbeat);
     }
 
