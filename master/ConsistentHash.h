@@ -1,5 +1,5 @@
 //
-// Created by user on 2021/12/12.
+// Created by Yuting on 2021/12/12.
 //
 
 #ifndef DISTRIBUTED_CACHE_CONSISTENTHASH_H

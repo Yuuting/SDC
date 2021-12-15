@@ -1,5 +1,5 @@
 //
-// Created by user on 2021/11/22.
+// Created by Yuting on 2021/11/22.
 //
 
 #ifndef DISTRIBUTED_CACHE_UTILS_H
@@ -13,7 +13,7 @@
 using namespace std;
 
 
-/* msleep(): Sleep for the requested number of milliseconds. */
+//休眠（ms）
 int msleep(long msec) {
     struct timespec ts;
     int res;
@@ -62,8 +62,8 @@ int setnonblocking(int fd) {
     fcntl(fd, F_SETFL, new_option);
     return old_option;
 }
-
-void addfd(int epollfd, int fd)//添加事件
+//添加事件
+void addfd(int epollfd, int fd)
 {
     epoll_event event;
     event.data.fd = fd;
@@ -71,15 +71,15 @@ void addfd(int epollfd, int fd)//添加事件
     epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &event);
     setnonblocking(fd);
 }
-
+//关闭事件
 void Close(int fd) {
     int rc;
 
     if ((rc = close(fd)) < 0)
         perror("Close error");
 }
-
-void removefd(int epollfd, int fd)//删除事件
+//删除事件
+void removefd(int epollfd, int fd)
 {
     epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, 0);
     Close(fd);
