@@ -384,7 +384,22 @@ int main(int argc,char *argv[]) {
                     flag= false;
                     memset(data, '\0', sizeof(data));
                     strcpy(data, mess.c_str());
-                    c.write_nbytes(port_socket[cache_port[0]], data, strlen(data),cache_port[0]);
+                    int write_master=c.write_nbytes(port_socket[cache_port[0]], data, strlen(data),cache_port[0]);
+                    while(1){
+                        if(write_master==-1){
+                            ALERT("[client]",正在重连master%s,"......");
+                            sleep(clientmasterTime);
+                            int socket_=c.start_conn(cache_ip[0],cache_port[0]);
+                            if(socket_==0){
+                                continue;
+                            }
+                            port_socket[cache_port[0]]=socket_;
+                            write_master=c.write_nbytes(port_socket[cache_port[0]], data, strlen(data),cache_port[0]);
+                        }else{
+                            break;
+                        }
+                    }
+                    //c.write_nbytes(port_socket[cache_port[0]], data, strlen(data),cache_port[0]);
                     while(1){
                         int ret=c.read_once(port_socket[cache_port[0]], buf, sizeof(buf),cache_port[0]);
                         if(ret>0){
@@ -432,7 +447,22 @@ int main(int argc,char *argv[]) {
                     flag= false;
                     memset(data, '\0', sizeof(data));
                     strcpy(data, mess.c_str());
-                    c.write_nbytes(port_socket[cache_port[0]], data, strlen(data),cache_port[0]);
+                    int write_master=c.write_nbytes(port_socket[cache_port[0]], data, strlen(data),cache_port[0]);
+                    while(1){
+                        if(write_master==-1){
+                            ALERT("[client]",正在重连master%s,"......");
+                            sleep(clientmasterTime);
+                            int socket_=c.start_conn(cache_ip[0],cache_port[0]);
+                            if(socket_==0){
+                                continue;
+                            }
+                            port_socket[cache_port[0]]=socket_;
+                            write_master=c.write_nbytes(port_socket[cache_port[0]], data, strlen(data),cache_port[0]);
+                        }else{
+                            break;
+                        }
+                    }
+                    //c.write_nbytes(port_socket[cache_port[0]], data, strlen(data),cache_port[0]);
                     while(1){
                         int ret=c.read_once(port_socket[cache_port[0]], buf, sizeof(buf),cache_port[0]);
                         if(ret>0){
