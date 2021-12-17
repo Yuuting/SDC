@@ -56,7 +56,7 @@ int main() {
         } else {
             sleep(4);
             cout << "正在打印client日志......" << endl;
-            system("./client 2>&1 | sed -u -r 's/\\x1B\\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' | tee ../log/client.log");
+            system("./client fill 2>&1 | sed -u -r 's/\\x1B\\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g' | tee ../log/client.log");
         }
 
     }

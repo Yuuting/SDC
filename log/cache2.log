@@ -1,37 +1,50 @@
 [cache2] : 启动 
 [cache2] : listening... 
-[cache2]->[master] : 已连接master 
+[cache2] : ->[master] : 已连接master 
+[cache2] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache2]存活 
 [cache2] : 将cache中的数据写入mysql数据库中 
-[cache2] : connect 127.0.0.1:41574 
-[cache2]接收到客户端消息 : Put:957589,45144249631 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (957589,45144249631)被加入LRU缓存队列中 
-[cache2]接收到客户端消息 : Get:957589 
-[cache2]有该(key，value)对，回复client端 : 957589在LRU缓存队列中，值为45144249631 
-[cache2]接收到客户端消息 : Put:747004,83877770234 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (747004,83877770234)被加入LRU缓存队列中 
-[cache2]接收到客户端消息 : Put:556723,09205947336 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (556723,09205947336)被加入LRU缓存队列中 
-[cache2]接收到客户端消息 : Put:274620,29662428266 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (274620,29662428266)被加入LRU缓存队列中 
-[cache2]接收到客户端消息 : Put:566225,71629105853 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (566225,71629105853)被加入LRU缓存队列中 
-[cache2]->[master] : 写入14 bytes消息到socket13中,内容是[cache2]存活 
+[cache2] : connect 127.0.0.1:37400 
+[cache2] : 接收到客户端消息 : Put:638302,43961428494 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (638302,43961428494)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Put:605574,66081448421 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (605574,66081448421)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Put:472892,32282674205 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (472892,32282674205)被加入LRU缓存队列中 
+[cache2] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache2]存活 
 [cache2] : 将cache中的数据写入mysql数据库中 
-[cache2]接收到客户端消息 : Get:566225 
-[cache2]有该(key，value)对，回复client端 : 566225在LRU缓存队列中，值为71629105853 
-[cache2]接收到客户端消息 : Put:212697,81313954301 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (212697,81313954301)被加入LRU缓存队列中 
-[cache2]接收到客户端消息 : Get:277002 
-[cache2]无该(key，value)对，回复client端 : 277002不在缓存队列中 
-[cache2]接收到客户端消息 : Put:401024,20516643585 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (401024,20516643585)被加入LRU缓存队列中 
-[cache2]接收到客户端消息 : Put:137457,01343178082 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (137457,01343178082)被加入LRU缓存队列中 
-[cache2]->[master] : 写入14 bytes消息到socket13中,内容是[cache2]存活 
+[cache2] : 接收到客户端消息 : Put:452226,93080279549 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (452226,93080279549)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Put:115356,72537376754 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (115356,72537376754)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Put:057242,79620427197 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (057242,79620427197)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Put:114048,20960576551 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (114048,20960576551)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Put:385394,61005218503 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (385394,61005218503)被加入LRU缓存队列中 
+[cache2] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache2]存活 
 [cache2] : 将cache中的数据写入mysql数据库中 
-[cache2]接收到客户端消息 : Get:957589 
-[cache2]有该(key，value)对，回复client端 : 957589在LRU缓存队列中，值为45144249631 
-[cache2]接收到客户端消息 : Put:608415,72223458454 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (608415,72223458454)被加入LRU缓存队列中 
-[cache2]接收到客户端消息 : Put:617082,63486840197 
-[cache2]将该(key，value)对放入缓存中，回复client端 : (617082,63486840197)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Put:268932,25003756438 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (268932,25003756438)被加入LRU缓存队列中 
+[cache2] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache2]存活 
+[cache2] : 将cache中的数据写入mysql数据库中 
+[cache2] : 接收到客户端消息 : Get:057242 
+[cache2] : 有该(key，value)对，回复client端 : 057242在LRU缓存队列中，值为79620427197 
+[cache2] : 接收到客户端消息 : Put:349513,26167912990 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (349513,26167912990)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Get:349513 
+[cache2] : 有该(key，value)对，回复client端 : 349513在LRU缓存队列中，值为26167912990 
+[cache2] : 接收到客户端消息 : Put:135270,31632715275 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (135270,31632715275)被加入LRU缓存队列中 
+[cache2] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache2]存活 
+[cache2] : 将cache中的数据写入mysql数据库中 
+[cache2] : 接收到客户端消息 : Put:579243,54522013394 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (579243,54522013394)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Get:115356 
+[cache2] : 有该(key，value)对，回复client端 : 115356在LRU缓存队列中，值为72537376754 
+[cache2] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache2]存活 
+[cache2] : 将cache中的数据写入mysql数据库中 
+[cache2] : 接收到客户端消息 : Put:209494,41986399387 
+[cache2] : 将该(key，value)对放入缓存中，回复client端 : (209494,41986399387)被加入LRU缓存队列中 
+[cache2] : 接收到客户端消息 : Get:268932 
+[cache2] : 有该(key，value)对，回复client端 : 268932在LRU缓存队列中，值为25003756438 

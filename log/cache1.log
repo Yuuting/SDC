@@ -1,29 +1,131 @@
 [cache1] : 启动 
 [cache1] : listening... 
-[cache1]->[master] : 已连接master 
+[cache1] : ->[master] : 已连接master 
+[cache1] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
 [cache1] : 将cache中的数据写入mysql数据库中 
-[cache1] : connect 127.0.0.1:51176 
-[cache1]接收到客户端消息 : Put:496308,84320002129 
-[cache1]将该(key，value)对放入缓存中，回复client端 : (496308,84320002129)被加入LRU缓存队列中 
-[cache1]->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
+[cache1] : connect 127.0.0.1:44034 
+[cache1] : 接收到客户端消息 : Put:339517,07284837346 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (339517,07284837346)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:197063,08586051668 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (197063,08586051668)被加入LRU缓存队列中 
+[cache1] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
 [cache1] : 将cache中的数据写入mysql数据库中 
-[cache1]接收到客户端消息 : Get:556723 
-[cache1]无该(key，value)对，回复client端 : 556723不在缓存队列中 
-[cache1]接收到客户端消息 : Get:274620 
-[cache1]无该(key，value)对，回复client端 : 274620不在缓存队列中 
-[cache1]接收到客户端消息 : Get:270272 
-[cache1]无该(key，value)对，回复client端 : 270272不在缓存队列中 
-[cache1]接收到客户端消息 : Put:615144,73287999067 
-[cache1]将该(key，value)对放入缓存中，回复client端 : (615144,73287999067)被加入LRU缓存队列中 
-[cache1]接收到客户端消息 : Put:657003,71942389313 
-[cache1]将该(key，value)对放入缓存中，回复client端 : (657003,71942389313)被加入LRU缓存队列中 
-[cache1]->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
+[cache1] : 接收到客户端消息 : Put:431628,22759651331 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (431628,22759651331)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Get:431628 
+[cache1] : 有该(key，value)对，回复client端 : 431628在LRU缓存队列中，值为22759651331 
+[cache1] : 接收到客户端消息 : Put:241451,89580693695 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (241451,89580693695)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:196982,04093204190 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (196982,04093204190)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Get:431628 
+[cache1] : 有该(key，value)对，回复client端 : 431628在LRU缓存队列中，值为22759651331 
+[cache1] : 接收到客户端消息 : Put:417554,03556865991 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (417554,03556865991)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:276144,02131092733 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (276144,02131092733)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:100597,77492555685 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (100597,77492555685)被加入LRU缓存队列中 
+[cache1] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
 [cache1] : 将cache中的数据写入mysql数据库中 
-[cache1]接收到客户端消息 : Put:320050,00672156145 
-[cache1]将该(key，value)对放入缓存中，回复client端 : (320050,00672156145)被加入LRU缓存队列中 
-[cache1]接收到客户端消息 : Put:332072,32654239408 
-[cache1]将该(key，value)对放入缓存中，回复client端 : (332072,32654239408)被加入LRU缓存队列中 
-[cache1]接收到客户端消息 : Put:277909,10372043482 
-[cache1]将该(key，value)对放入缓存中，回复client端 : (277909,10372043482)被加入LRU缓存队列中 
-[cache1]接收到客户端消息 : Put:195741,98344298842 
-[cache1]将该(key，value)对放入缓存中，回复client端 : (195741,98344298842)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:137516,80405487859 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (137516,80405487859)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:365364,35235494525 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (365364,35235494525)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:212122,12183285124 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (212122,12183285124)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:660950,59906601584 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (660950,59906601584)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:390873,28539255323 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (390873,28539255323)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Get:365364 
+[cache1] : 有该(key，value)对，回复client端 : 365364在LRU缓存队列中，值为35235494525 
+[cache1] : 接收到客户端消息 : Put:118326,98507062945 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (118326,98507062945)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Get:100597 
+[cache1] : 有该(key，value)对，回复client端 : 100597在LRU缓存队列中，值为77492555685 
+[cache1] : 接收到客户端消息 : Get:137516 
+[cache1] : 有该(key，value)对，回复client端 : 137516在LRU缓存队列中，值为80405487859 
+[cache1] : 接收到客户端消息 : Put:615436,64807646116 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (615436,64807646116)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:596186,77330312639 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (596186,77330312639)被加入LRU缓存队列中 
+[cache1] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
+[cache1] : 将cache中的数据写入mysql数据库中 
+[cache1] : 接收到客户端消息 : Put:126647,00251705443 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (126647,00251705443)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:241301,68696897377 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (241301,68696897377)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:664619,00177943281 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (664619,00177943281)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:155045,54566333061 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (155045,54566333061)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:500433,40288787323 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (500433,40288787323)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:529517,45419517392 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (529517,45419517392)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:513551,13118611099 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (513551,13118611099)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:270363,73424673248 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (270363,73424673248)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Get:241301 
+[cache1] : 有该(key，value)对，回复client端 : 241301在LRU缓存队列中，值为68696897377 
+[cache1] : 接收到客户端消息 : Get:529517 
+[cache1] : 有该(key，value)对，回复client端 : 529517在LRU缓存队列中，值为45419517392 
+[cache1] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
+[cache1] : 将cache中的数据写入mysql数据库中 
+[cache1] : 接收到客户端消息 : Put:111116,15477678164 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (111116,15477678164)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Get:513551 
+[cache1] : 有该(key，value)对，回复client端 : 513551在LRU缓存队列中，值为13118611099 
+[cache1] : 接收到客户端消息 : Get:500433 
+[cache1] : 有该(key，value)对，回复client端 : 500433在LRU缓存队列中，值为40288787323 
+[cache1] : 接收到客户端消息 : Get:126647 
+[cache1] : 有该(key，value)对，回复client端 : 126647在LRU缓存队列中，值为00251705443 
+[cache1] : 接收到客户端消息 : Get:513551 
+[cache1] : 有该(key，value)对，回复client端 : 513551在LRU缓存队列中，值为13118611099 
+[cache1] : 接收到客户端消息 : Put:602839,07318203834 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (602839,07318203834)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:507595,71723779675 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (507595,71723779675)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:268731,22776033980 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (268731,22776033980)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:130609,31739337727 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (130609,31739337727)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:534709,58962164279 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (534709,58962164279)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Get:534709 
+[cache1] : 有该(key，value)对，回复client端 : 534709在LRU缓存队列中，值为58962164279 
+[cache1] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
+[cache1] : 接收到客户端消息 : Put:356506,69398972313 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (356506,69398972313)被加入LRU缓存队列中 
+[cache1] : 将cache中的数据写入mysql数据库中 
+[cache1] : 接收到客户端消息 : Put:454219,42482325237 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (454219,42482325237)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Put:443160,11456974898 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (443160,11456974898)被加入LRU缓存队列中 
+[cache1] : 接收到客户端消息 : Get:660950 
+[cache1] : 无该(key，value)对，回复client端 : 660950不在缓存队列中 
+[cache1] : 接收到客户端消息 : Put:221070,73586885378 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (221070,73586885378)被加入LRU缓存队列中 
+[cache1] : ->[master] : 写入14 bytes消息到socket13中,内容是[cache1]存活 
+[cache1] : 接收到客户端消息 : Put:161073,84637242882 
+此cache的lru队列状态 : 已满 
+[cache1] : 将该(key，value)对放入缓存中，回复client端 : (161073,84637242882)被加入LRU缓存队列中 
+[cache1] : 将cache中的数据写入mysql数据库中 
+[cache1] : 接收到客户端消息 : Get:365364 
+[cache1] : 无该(key，value)对，回复client端 : 365364不在缓存队列中 
